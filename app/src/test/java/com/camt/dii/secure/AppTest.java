@@ -3,13 +3,12 @@
  */
 package com.camt.dii.secure;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class AppTest {
-    @Test 
-    public void shouldCreateAppInstance() {
+class AppTest {
+    @Test void appHasAGreeting() {
         App classUnderTest = new App();
-        assertNotNull("app should be created", classUnderTest);
+        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
     }
 }
