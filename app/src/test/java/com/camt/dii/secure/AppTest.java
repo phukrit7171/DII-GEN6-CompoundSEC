@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,43 +21,75 @@ class AppTest {
 
     @Test 
     void simulateAddCardAndAccess() {
-        // Simulate user input: Add card (1), card details, generate token (4), then request access (5), then exit (7)
-        String simulatedInput = "1\n" +          // Choose Add Card
-                               "card123\n" +     // Card ID
-                               "LOW,MEDIUM\n" +  // Allowed floors
-                               "101,102\n" +     // Allowed rooms
-                               "4\n" +           // Generate Token
-                               "card123\n" +     // Card ID for token
-                               "5\n" +           // Choose Request Access
-                               "card123\n" +     // Card facade ID
-                               "LOW\n" +         // Floor
-                               "101\n" +         // Room
-                               "7\n";            // Exit
+        String cardId = "card123";
+        
+        // First input sequence to add card and capture facade ID
+        String addCardInput = String.format(
+            "1\n" +          // Choose Add Card
+            "%s\n" +         // Card ID
+            "LOW\n" +        // Allowed floors
+            "101\n",         // Allowed rooms
+            cardId
+        );
 
-        // Redirect System.in to our simulated input
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(simulatedInput.getBytes());
+        // Set up input stream for first interaction
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(addCardInput.getBytes());
         System.setIn(inputStream);
 
-        // Capture console output
+        // Capture output to get facade ID
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outputStream));
 
+        // Run first part to add card
         try {
-            // Run the app
             App.main(new String[]{});
-
-            // Get the output
-            String output = outputStream.toString();
-
-            // Assert expected behaviors
-            assertTrue(output.contains("Card added successfully"));
-            assertTrue(output.contains("Token generated successfully"));
-            assertTrue(output.contains("ACCESS")); // Will show either GRANTED or DENIED
-        } finally {
-            // Restore original System.in and System.out
-            System.setIn(System.in);
-            System.setOut(originalOut);
+        } catch (Exception e) {
+            // Expected to throw when input ends
         }
+
+        // Extract facade ID from output
+        String output = outputStream.toString();
+        Pattern pattern = Pattern.compile("Facade ID for this card is: ([A-F0-9]+)");
+        Matcher matcher = pattern.matcher(output);
+        assertTrue(matcher.find(), "Facade ID should be present in output");
+        String facadeId = matcher.group(1);
+
+        // Second input sequence to test access
+        String accessInput = String.format(
+            "4\n" +          // Request Access
+            "%s\n" +         // Facade ID
+            "LOW\n" +        // Floor
+            "101\n" +        // Room
+            "6\n",          // Exit
+            facadeId
+        );
+
+        // Reset input/output streams for second interaction
+        inputStream = new ByteArrayInputStream(accessInput.getBytes());
+        System.setIn(inputStream);
+        outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+
+        // Run second part to test access
+        App.main(new String[]{});
+
+        output = outputStream.toString();
+        
+        // Assert expected behaviors
+        assertTrue(output.contains("ACCESS GRANTED"), "Access should be granted for valid permissions");
+        assertFalse(output.contains("Card not found"), "Card should be found with correct facade ID");
+        
+        // Check menu items are correct
+        assertTrue(output.contains("1. Add Card"));
+        assertTrue(output.contains("4. Request Access"));
+        assertTrue(output.contains("6. Exit"));
+        
+        // Verify unwanted items are not present
+        assertFalse(output.contains("Generate Token"), "Should not show token generation option");
+
+        // Restore original System.in and System.out
+        System.setIn(System.in);
+        System.setOut(originalOut);
     }
 }

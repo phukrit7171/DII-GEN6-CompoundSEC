@@ -29,7 +29,15 @@ public class SimpleCard implements Card {
     public void revoke() { revoked = true; }
 
     private String generateFacadeId(String cardId) {
-        // Simulate hashing (use actual SHA-256 in real code)
-        return cardId.hashCode() + "";  // Placeholder
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("SHA-256");
+            byte[] hash = md.digest(cardId.getBytes());
+            // Use first 8 bytes for a shorter, but still unique ID
+            return String.format("%02x%02x%02x%02x", 
+                hash[0], hash[1], hash[2], hash[3]).toUpperCase();
+        } catch (Exception e) {
+            // Fallback to simple hash if crypto fails
+            return String.valueOf(Math.abs(cardId.hashCode()));
+        }
     }
 }

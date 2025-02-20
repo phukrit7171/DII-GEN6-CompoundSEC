@@ -18,22 +18,19 @@ import com.camt.dii.secure.token.TokenService;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.HashMap;
-import java.util.Map;
 
 public class App {
-    private static final Map<String, String> cardTokens = new HashMap<>();
+    // Static service instances to maintain state across runs
+    private static final CardManagementService cardService = new SimpleCardManagementService();
+    private static final TokenService tokenService = new SimpleTokenService();
+    private static final AccessStrategy accessStrategy = new RuleBasedAccessStrategy();
+    private static final AuditLogService auditLogService = 
+        new DetailedAuditLogDecorator(ConsoleAuditLogService.getInstance());
+    private static final AccessControlService accessControlService = 
+        new SimpleAccessControlService(cardService, tokenService, accessStrategy, auditLogService);
 
     public static void main(String[] args) {
-        AuditLogService auditLogService = new DetailedAuditLogDecorator(ConsoleAuditLogService.getInstance());
-        CardManagementService cardService = new SimpleCardManagementService();
-        TokenService tokenService = new SimpleTokenService();
-        AccessStrategy accessStrategy = new RuleBasedAccessStrategy();
-
-        AccessControlService accessControlService = new SimpleAccessControlService(
-            cardService, tokenService, accessStrategy, auditLogService
-        );
-
+        // Remove service instantiation since we're using static instances
         Scanner scanner = new Scanner(System.in);
         try {
             while (true) {
@@ -55,15 +52,12 @@ public class App {
                         modifyPermissions(scanner, cardService);
                         break;
                     case 4:
-                        generateToken(scanner, tokenService);
+                        requestAccess(scanner, accessControlService, tokenService, cardService);
                         break;
                     case 5:
-                        requestAccess(scanner, accessControlService);
-                        break;
-                    case 6:
                         System.out.println("\n[INFO] Audit logs are printed to console in real-time.");
                         break;
-                    case 7:
+                    case 6:
                         System.out.println("Exiting...");
                         return;
                     default:
@@ -80,10 +74,9 @@ public class App {
         System.out.println("1. Add Card");
         System.out.println("2. Revoke Card");
         System.out.println("3. Modify Card Permissions");
-        System.out.println("4. Generate Token");
-        System.out.println("5. Request Access");
-        System.out.println("6. View Audit Logs");
-        System.out.println("7. Exit");
+        System.out.println("4. Request Access");
+        System.out.println("5. View Audit Logs");
+        System.out.println("6. Exit");
         System.out.print("Choose option: ");
     }
 
@@ -107,6 +100,7 @@ public class App {
         cardService.addCard(card);
 
         System.out.println("Card added successfully.");
+        System.out.println("Facade ID for this card is: " + card.getFacadeId());
     }
 
     private static void revokeCard(Scanner scanner, CardManagementService cardService) {
@@ -120,29 +114,47 @@ public class App {
         System.out.println("* Feature not implemented *");
     }
 
-    private static void generateToken(Scanner scanner, TokenService tokenService) {
-        System.out.print("Enter card ID to generate token: ");
-        String cardId = scanner.nextLine();
-        String token = tokenService.generateToken(cardId);
-        cardTokens.put(cardId, token);
-        System.out.println("Token generated successfully.");
-    }
+    private static void requestAccess(Scanner scanner, AccessControlService accessControlService, 
+                                    TokenService tokenService, CardManagementService cardService) {
+        try {
+            System.out.print("Enter card facade ID: ");
+            String facadeId = scanner.nextLine().trim();
+            if (facadeId.isEmpty()) {
+                System.out.println("Facade ID cannot be empty");
+                return;
+            }
 
-    private static void requestAccess(Scanner scanner, AccessControlService accessControlService) {
-        System.out.print("Enter card facade ID: ");
-        String facadeId = scanner.nextLine();
-        System.out.print("Floor (LOW, MEDIUM, HIGH): ");
-        Floor floor = Floor.valueOf(scanner.nextLine().trim());
-        System.out.print("Room: ");
-        String room = scanner.nextLine();
+            System.out.print("Floor (LOW, MEDIUM, HIGH): ");
+            String floorInput = scanner.nextLine().trim().toUpperCase();
+            Floor floor;
+            try {
+                floor = Floor.valueOf(floorInput);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid floor level. Please use LOW, MEDIUM, or HIGH");
+                return;
+            }
 
-        String token = cardTokens.getOrDefault(facadeId, "");
-        if (token.isEmpty()) {
-            System.out.println("Please generate a token first using option 4");
-            return;
+            System.out.print("Room: ");
+            String room = scanner.nextLine().trim();
+            if (room.isEmpty()) {
+                System.out.println("Room cannot be empty");
+                return;
+            }
+
+            // Get card and generate token automatically
+            Card card = cardService.findByFacadeId(facadeId);
+            if (card == null) {
+                System.out.println("Card not found. Please check the facade ID");
+                return;
+            }
+
+            // Generate token automatically
+            String token = tokenService.generateToken(card.getCardId());
+            
+            boolean granted = accessControlService.grantAccess(facadeId, floor, room, token);
+            System.out.println(granted ? "ACCESS GRANTED" : "ACCESS DENIED");
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
         }
-
-        boolean granted = accessControlService.grantAccess(facadeId, floor, room, token);
-        System.out.println(granted ? "ACCESS GRANTED" : "ACCESS DENIED");
     }
 }
