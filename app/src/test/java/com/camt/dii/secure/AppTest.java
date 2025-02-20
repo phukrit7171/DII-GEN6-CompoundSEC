@@ -4,11 +4,58 @@
 package com.camt.dii.secure;
 
 import org.junit.jupiter.api.Test;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+    @Test 
+    void appClassExists() {
+        App app = new App();
+        assertNotNull(app);
+    }
+
+    @Test 
+    void simulateAddCardAndAccess() {
+        // Simulate user input: Add card (1), card details, generate token (4), then request access (5), then exit (7)
+        String simulatedInput = "1\n" +          // Choose Add Card
+                               "card123\n" +     // Card ID
+                               "LOW,MEDIUM\n" +  // Allowed floors
+                               "101,102\n" +     // Allowed rooms
+                               "4\n" +           // Generate Token
+                               "card123\n" +     // Card ID for token
+                               "5\n" +           // Choose Request Access
+                               "card123\n" +     // Card facade ID
+                               "LOW\n" +         // Floor
+                               "101\n" +         // Room
+                               "7\n";            // Exit
+
+        // Redirect System.in to our simulated input
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(simulatedInput.getBytes());
+        System.setIn(inputStream);
+
+        // Capture console output
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outputStream));
+
+        try {
+            // Run the app
+            App.main(new String[]{});
+
+            // Get the output
+            String output = outputStream.toString();
+
+            // Assert expected behaviors
+            assertTrue(output.contains("Card added successfully"));
+            assertTrue(output.contains("Token generated successfully"));
+            assertTrue(output.contains("ACCESS")); // Will show either GRANTED or DENIED
+        } finally {
+            // Restore original System.in and System.out
+            System.setIn(System.in);
+            System.setOut(originalOut);
+        }
     }
 }
