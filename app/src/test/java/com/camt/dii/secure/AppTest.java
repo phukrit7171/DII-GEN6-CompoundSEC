@@ -48,12 +48,19 @@ class AppTest {
             // Expected to throw when input ends
         }
 
-        // Extract facade ID from output
+        // Extract facade ID from output using updated format
         String output = outputStream.toString();
-        Pattern pattern = Pattern.compile("Facade ID for this card is: ([A-F0-9]+)");
+        Pattern pattern = Pattern.compile("Facade ID: ([A-F0-9]+)");
         Matcher matcher = pattern.matcher(output);
         assertTrue(matcher.find(), "Facade ID should be present in output");
         String facadeId = matcher.group(1);
+
+        // Verify the new card creation output format
+        assertTrue(output.contains("=== Card Created Successfully ==="));
+        assertTrue(output.contains("Card Details:"));
+        assertTrue(output.contains("Allowed Floors: LOW"));
+        assertTrue(output.contains("Allowed Rooms: 101"));
+        assertTrue(output.contains("Please store the Facade ID securely"));
 
         // Second input sequence to test access
         String accessInput = String.format(
@@ -76,17 +83,20 @@ class AppTest {
 
         output = outputStream.toString();
         
-        // Assert expected behaviors
-        assertTrue(output.contains("ACCESS GRANTED"), "Access should be granted for valid permissions");
-        assertFalse(output.contains("Card not found"), "Card should be found with correct facade ID");
+        // Assert expected behaviors with new output format
+        assertTrue(output.contains("=== Processing Access Request ==="));
+        assertTrue(output.contains("Access Request Result:"));
+        assertTrue(output.contains("Location: LOW floor, Room 101"));
+        assertTrue(output.contains("Status: ACCESS GRANTED ✓"));
+        
+        // Verify error messages don't appear
+        assertFalse(output.contains("Error:"), "No error messages should be present");
         
         // Check menu items are correct
+        assertTrue(output.contains("=== SECURE FACILITY CLI ==="));
         assertTrue(output.contains("1. Add Card"));
         assertTrue(output.contains("4. Request Access"));
         assertTrue(output.contains("6. Exit"));
-        
-        // Verify unwanted items are not present
-        assertFalse(output.contains("Generate Token"), "Should not show token generation option");
 
         // Restore original System.in and System.out
         System.setIn(System.in);

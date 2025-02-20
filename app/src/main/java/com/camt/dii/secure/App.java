@@ -99,8 +99,12 @@ public class App {
         Card card = new SimpleCard(cardId, permissions);
         cardService.addCard(card);
 
-        System.out.println("Card added successfully.");
-        System.out.println("Facade ID for this card is: " + card.getFacadeId());
+        System.out.println("\n=== Card Created Successfully ===");
+        System.out.println("Card Details:");
+        System.out.println("Facade ID: " + card.getFacadeId());
+        System.out.println("Allowed Floors: " + String.join(", ", floors.stream().map(Enum::name).collect(Collectors.toList())));
+        System.out.println("Allowed Rooms: " + String.join(", ", rooms));
+        System.out.println("Please store the Facade ID securely. The original Card ID will not be accessible.");
     }
 
     private static void revokeCard(Scanner scanner, CardManagementService cardService) {
@@ -120,7 +124,14 @@ public class App {
             System.out.print("Enter card facade ID: ");
             String facadeId = scanner.nextLine().trim();
             if (facadeId.isEmpty()) {
-                System.out.println("Facade ID cannot be empty");
+                System.out.println("Error: Facade ID cannot be empty");
+                return;
+            }
+
+            // Verify card exists before proceeding
+            Card card = cardService.findByFacadeId(facadeId);
+            if (card == null) {
+                System.out.println("Error: Invalid facade ID");
                 return;
             }
 
@@ -130,31 +141,29 @@ public class App {
             try {
                 floor = Floor.valueOf(floorInput);
             } catch (IllegalArgumentException e) {
-                System.out.println("Invalid floor level. Please use LOW, MEDIUM, or HIGH");
+                System.out.println("Error: Invalid floor level. Please use LOW, MEDIUM, or HIGH");
                 return;
             }
 
             System.out.print("Room: ");
             String room = scanner.nextLine().trim();
             if (room.isEmpty()) {
-                System.out.println("Room cannot be empty");
+                System.out.println("Error: Room cannot be empty");
                 return;
             }
 
-            // Get card and generate token automatically
-            Card card = cardService.findByFacadeId(facadeId);
-            if (card == null) {
-                System.out.println("Card not found. Please check the facade ID");
-                return;
-            }
-
-            // Generate token automatically
+            // Automatically generate and use token
             String token = tokenService.generateToken(card.getCardId());
             
+            System.out.println("\n=== Processing Access Request ===");
             boolean granted = accessControlService.grantAccess(facadeId, floor, room, token);
-            System.out.println(granted ? "ACCESS GRANTED" : "ACCESS DENIED");
+            
+            System.out.println("\nAccess Request Result:");
+            System.out.println("Location: " + floor + " floor, Room " + room);
+            System.out.println("Status: " + (granted ? "ACCESS GRANTED [OK]" : "ACCESS DENIED [X]"));
+            
         } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
+            System.out.println("Error processing request: " + e.getMessage());
         }
     }
 }

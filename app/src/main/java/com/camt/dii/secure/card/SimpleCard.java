@@ -30,14 +30,20 @@ public class SimpleCard implements Card {
 
     private String generateFacadeId(String cardId) {
         try {
+            // Use SHA-256 for secure hashing
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("SHA-256");
-            byte[] hash = md.digest(cardId.getBytes());
-            // Use first 8 bytes for a shorter, but still unique ID
-            return String.format("%02x%02x%02x%02x", 
-                hash[0], hash[1], hash[2], hash[3]).toUpperCase();
+            // Add a salt to prevent rainbow table attacks
+            String salt = java.util.UUID.randomUUID().toString();
+            byte[] hash = md.digest((salt + cardId).getBytes());
+            
+            // Convert to hex string, use first 12 characters for readability
+            StringBuilder hex = new StringBuilder();
+            for (int i = 0; i < 6; i++) {
+                hex.append(String.format("%02X", hash[i]));
+            }
+            return hex.toString();
         } catch (Exception e) {
-            // Fallback to simple hash if crypto fails
-            return String.valueOf(Math.abs(cardId.hashCode()));
+            throw new RuntimeException("Failed to generate facade ID", e);
         }
     }
 }
