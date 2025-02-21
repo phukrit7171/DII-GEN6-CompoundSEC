@@ -3,10 +3,3 @@
 
 # Ignore Gradle build output directory
 build
-*.class
-*.jar
-*.war
-*.ear
-*.zip
-*.tar
-*.gz
