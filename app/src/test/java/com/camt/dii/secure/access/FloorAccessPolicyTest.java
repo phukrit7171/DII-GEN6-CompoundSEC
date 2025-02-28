@@ -115,6 +115,9 @@ public class FloorAccessPolicyTest {
         // Create high floor policy with default settings
         FloorAccessPolicy policy = new HighFloorAccess();
         
+        // Set time to noon for testing within working hours
+        now = LocalDateTime.of(now.toLocalDate(), LocalTime.of(12, 0));
+
         // Test with all card types on correct floor
         assertTrue(policy.validateAccess(adminCard, Floor.HIGH, now),
                 "Admin should have access to HIGH floor with HighFloorAccess policy");

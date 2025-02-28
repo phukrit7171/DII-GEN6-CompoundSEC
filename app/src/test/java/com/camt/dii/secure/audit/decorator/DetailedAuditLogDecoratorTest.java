@@ -84,10 +84,21 @@ public class DetailedAuditLogDecoratorTest {
         assertTrue(hasExtraDetails, "Decorated logger should add extra details");
         
         // Specific details we expect to find based on the implementation
-        assertTrue(record.getAdditionalDetails().containsKey("modification_details") || 
-                   record.getAdditionalDetails().containsKey("detailed_timestamp") ||
-                   record.getAdditionalDetails().containsKey("system_info"),
-                   "Should find at least one of the expected extra detail keys");
+        if (!record.getAdditionalDetails().containsKey("modification_details")) {
+            System.out.println("Missing key: modification_details");
+            System.out.println("Available keys: " + record.getAdditionalDetails().keySet());
+            assertTrue(false, "Should find modification_details key");
+        }
+        if (!record.getAdditionalDetails().containsKey("detailed_timestamp")) {
+            System.out.println("Missing key: detailed_timestamp");
+            System.out.println("Available keys: " + record.getAdditionalDetails().keySet());
+            assertTrue(false, "Should find detailed_timestamp key");
+        }
+        if (!record.getAdditionalDetails().containsKey("system_info")) {
+            System.out.println("Missing key: system_info");
+            System.out.println("Available keys: " + record.getAdditionalDetails().keySet());
+            assertTrue(false, "Should find system_info key");
+        }
     }
     
     @Test

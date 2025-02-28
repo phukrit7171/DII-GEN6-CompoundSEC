@@ -83,8 +83,8 @@ public class DetailedAuditLogDecorator extends AuditLogServiceDecorator {
         // Add extra details
         addExtraDetails(detailedRecord);
         
-        // Log with the base logger
-        super.logAccessAttempt(cardId, location, isSuccessful, timestamp);
+        // Store the enhanced record
+        wrappedLogger.storeRecord(detailedRecord);
     }
     
     @Override
@@ -102,28 +102,27 @@ public class DetailedAuditLogDecorator extends AuditLogServiceDecorator {
         // Add extra details
         addExtraDetails(detailedRecord);
         
-        // Log with the base logger
-        super.logCardCreation(cardId, createdBy, timestamp);
+        // Store the enhanced record
+        wrappedLogger.storeRecord(detailedRecord);
     }
     
     @Override
     public void logCardModification(String cardId, String modifiedBy, String modification, LocalDateTime timestamp) {
-        // Create a detailed record with extra information
+        // Create and enhance the audit record
         AuditRecord detailedRecord = new AuditRecord(
                 AuditEventType.CARD_MODIFICATION,
                 cardId,
-                null, // No location for card modification
+                null,
                 modifiedBy,
-                true, // Card modification is always successful if it happens
+                true,
                 timestamp
         );
         
-        // Add extra details
         addExtraDetails(detailedRecord);
         detailedRecord.addDetail("modification_details", modification);
         
-        // Log with the base logger
-        super.logCardModification(cardId, modifiedBy, modification, timestamp);
+        // Store the enhanced record
+        wrappedLogger.storeRecord(detailedRecord);
     }
     
     @Override
@@ -141,8 +140,8 @@ public class DetailedAuditLogDecorator extends AuditLogServiceDecorator {
         // Add extra details
         addExtraDetails(detailedRecord);
         
-        // Log with the base logger
-        super.logCardRevocation(cardId, revokedBy, timestamp);
+        // Store the enhanced record
+        wrappedLogger.storeRecord(detailedRecord);
     }
     
     /**

@@ -126,7 +126,13 @@ public class App {
         
         while (running) {
             System.out.print("\nCommand > ");
-            String command = scanner.nextLine().trim();
+            String command;
+            if (scanner.hasNextLine()) {
+                command = scanner.nextLine().trim();
+            } else {
+                System.out.println("No more input available. Exiting.");
+                break; // Exit the loop if no more input
+            }
             
             try {
                 if (command.isEmpty()) {

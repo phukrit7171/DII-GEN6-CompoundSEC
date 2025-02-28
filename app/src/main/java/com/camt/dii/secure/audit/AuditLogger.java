@@ -69,4 +69,23 @@ public interface AuditLogger {
      * @return list of audit records for the location in the time range
      */
     List<AuditRecord> getAccessHistory(String location, LocalDateTime startTime, LocalDateTime endTime);
+    
+    /**
+     * Stores an audit record directly.
+     * 
+     * @param record the audit record to store
+     */
+    default void storeRecord(AuditRecord record) {
+        switch (record.getEventType()) {
+            case ACCESS_ATTEMPT -> 
+                logAccessAttempt(record.getCardId(), record.getLocation(), record.getOutcome(), record.getTimestamp());
+            case CARD_CREATION -> 
+                logCardCreation(record.getCardId(), record.getUserId(), record.getTimestamp());
+            case CARD_MODIFICATION -> 
+                logCardModification(record.getCardId(), record.getUserId(), 
+                    record.getAdditionalDetails().getOrDefault("modification_details", ""), record.getTimestamp());
+            case CARD_REVOCATION -> 
+                logCardRevocation(record.getCardId(), record.getUserId(), record.getTimestamp());
+        }
+    }
 }

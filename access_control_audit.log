@@ -34,3 +34,61 @@
 2025-02-28 21:19:35 | ACCESS_ATTEMPT | Card: MAN-MGR-001-20250228 | Location: LOW | Outcome: SUCCESS
 2025-02-28 21:19:59 | ACCESS_ATTEMPT | Card: MAN-MGR-001-20250228 | Location: Floor: MEDIUM | Outcome: FAILURE
 2025-02-28 21:19:59 | ACCESS_ATTEMPT | Card: MAN-MGR-001-20250228 | Location: MEDIUM | Outcome: FAILURE
+2025-02-28 23:12:06 | CARD_CREATION | Card: ADM-ADM-001-20250228-Jf+K1hKvGFac | User: SYSTEM-SECURE | Outcome: SUCCESS
+2025-02-28 23:12:06 | CARD_CREATION | Card: ADM-ADM-001-20250228-Jf+K1hKvGFac | User: SYSTEM | Outcome: SUCCESS
+2025-02-28 23:12:06 | CARD_CREATION | Card: MAN-MGR-001-20250228 | User: SYSTEM | Outcome: SUCCESS
+2025-02-28 23:12:06 | CARD_CREATION | Card: MAN-MGR-001-20250228 | User: SYSTEM | Outcome: SUCCESS
+2025-02-28 23:12:06 | CARD_CREATION | Card: EMP-EMP-001-20250228 | User: SYSTEM | Outcome: SUCCESS
+2025-02-28 23:12:06 | CARD_CREATION | Card: EMP-EMP-001-20250228 | User: SYSTEM | Outcome: SUCCESS
+2025-02-28 23:12:06 | CARD_CREATION | Card: VIS-VIS-001-20250228 | User: SYSTEM | Outcome: SUCCESS
+2025-02-28 23:12:06 | CARD_CREATION | Card: VIS-VIS-001-20250228 | User: SYSTEM | Outcome: SUCCESS
+2025-02-28 23:43:15 | CARD_CREATION | Card: ADM-ADM-001-20250228-Jf+K1hKvGFac | User: SYSTEM-SECURE | Outcome: SUCCESS
+2025-02-28 23:43:15 | CARD_CREATION | Card: ADM-ADM-001-20250228-Jf+K1hKvGFac | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:43:15.6203372 | thread_name: main | memory_usage_mb: 9 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:43:15 | CARD_CREATION | Card: MAN-MGR-001-20250228 | User: SYSTEM | Outcome: SUCCESS
+2025-02-28 23:43:15 | CARD_CREATION | Card: MAN-MGR-001-20250228 | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:43:15.6215302 | thread_name: main | memory_usage_mb: 9 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:43:15 | CARD_CREATION | Card: EMP-EMP-001-20250228 | User: SYSTEM | Outcome: SUCCESS
+2025-02-28 23:43:15 | CARD_CREATION | Card: EMP-EMP-001-20250228 | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:43:15.623532 | thread_name: main | memory_usage_mb: 9 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:43:15 | CARD_CREATION | Card: VIS-VIS-001-20250228 | User: SYSTEM | Outcome: SUCCESS
+2025-02-28 23:43:15 | CARD_CREATION | Card: VIS-VIS-001-20250228 | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:43:15.6245396 | thread_name: main | memory_usage_mb: 9 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: ADM-ADM-001-20250228-Jf+K1hKvGFac | Location: Floor: LOW | Outcome: SUCCESS
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: ADM-ADM-001-20250228-Jf+K1hKvGFac | Location: LOW | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:44:14.8529333 | thread_name: main | memory_usage_mb: 73 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: ADM-ADM-001-20250228-Jf+K1hKvGFac | Location: Floor: MEDIUM | Outcome: FAILURE
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: ADM-ADM-001-20250228-Jf+K1hKvGFac | Location: MEDIUM | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:44:14.8529333 | thread_name: main | memory_usage_mb: 73 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: ADM-ADM-001-20250228-Jf+K1hKvGFac | Location: Floor: HIGH | Outcome: FAILURE
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: ADM-ADM-001-20250228-Jf+K1hKvGFac | Location: HIGH | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:44:14.8529333 | thread_name: main | memory_usage_mb: 73 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: EMP-EMP-001-20250228 | Location: Floor: LOW | Outcome: SUCCESS
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: EMP-EMP-001-20250228 | Location: LOW | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:44:14.8529333 | thread_name: main | memory_usage_mb: 73 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: EMP-EMP-001-20250228 | Location: Floor: MEDIUM | Outcome: FAILURE
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: EMP-EMP-001-20250228 | Location: MEDIUM | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:44:14.8529333 | thread_name: main | memory_usage_mb: 73 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: EMP-EMP-001-20250228 | Location: Floor: HIGH | Outcome: FAILURE
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: EMP-EMP-001-20250228 | Location: HIGH | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:44:14.8529333 | thread_name: main | memory_usage_mb: 73 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: Floor: LOW | Outcome: SUCCESS
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: LOW | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:44:14.8529333 | thread_name: main | memory_usage_mb: 73 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: Floor: MEDIUM | Outcome: FAILURE
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: MEDIUM | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:44:14.8529333 | thread_name: main | memory_usage_mb: 73 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: Floor: HIGH | Outcome: FAILURE
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: HIGH | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:44:14.8529333 | thread_name: main | memory_usage_mb: 73 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:44:14 | CARD_REVOCATION | Card: VIS-VIS-001-20250228 | User: ADMIN | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:44:14.8602058 | thread_name: main | memory_usage_mb: 73 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: Floor: LOW | Outcome: FAILURE
+2025-02-28 23:44:14 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: LOW | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:44:14.8529333 | thread_name: main | memory_usage_mb: 73 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: ADM-ADM-001-20250228-Jf+K1hKvGFac | Location: Floor: LOW | Outcome: SUCCESS
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: ADM-ADM-001-20250228-Jf+K1hKvGFac | Location: LOW | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:50:15.8541273 | thread_name: main | memory_usage_mb: 103 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: ADM-ADM-001-20250228-Jf+K1hKvGFac | Location: Floor: MEDIUM | Outcome: FAILURE
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: ADM-ADM-001-20250228-Jf+K1hKvGFac | Location: MEDIUM | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:50:15.8541273 | thread_name: main | memory_usage_mb: 103 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: ADM-ADM-001-20250228-Jf+K1hKvGFac | Location: Floor: HIGH | Outcome: FAILURE
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: ADM-ADM-001-20250228-Jf+K1hKvGFac | Location: HIGH | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:50:15.8541273 | thread_name: main | memory_usage_mb: 103 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: EMP-EMP-001-20250228 | Location: Floor: LOW | Outcome: SUCCESS
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: EMP-EMP-001-20250228 | Location: LOW | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:50:15.8541273 | thread_name: main | memory_usage_mb: 103 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: EMP-EMP-001-20250228 | Location: Floor: MEDIUM | Outcome: FAILURE
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: EMP-EMP-001-20250228 | Location: MEDIUM | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:50:15.8541273 | thread_name: main | memory_usage_mb: 103 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: EMP-EMP-001-20250228 | Location: Floor: HIGH | Outcome: FAILURE
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: EMP-EMP-001-20250228 | Location: HIGH | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:50:15.8541273 | thread_name: main | memory_usage_mb: 103 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: Floor: LOW | Outcome: SUCCESS
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: LOW | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:50:15.8541273 | thread_name: main | memory_usage_mb: 103 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: Floor: MEDIUM | Outcome: FAILURE
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: MEDIUM | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:50:15.8541273 | thread_name: main | memory_usage_mb: 103 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: Floor: HIGH | Outcome: FAILURE
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: HIGH | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:50:15.8541273 | thread_name: main | memory_usage_mb: 103 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:50:15 | CARD_REVOCATION | Card: VIS-VIS-001-20250228 | User: ADMIN | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:50:15.8626834 | thread_name: main | memory_usage_mb: 103 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: Floor: LOW | Outcome: FAILURE
+2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: LOW | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:50:15.8541273 | thread_name: main | memory_usage_mb: 103 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0

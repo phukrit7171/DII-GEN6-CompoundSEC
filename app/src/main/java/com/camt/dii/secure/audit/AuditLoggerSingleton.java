@@ -100,8 +100,7 @@ public class AuditLoggerSingleton implements AuditLogger {
                 isSuccessful,
                 timestamp
         );
-        auditTrail.add(record);
-        saveToFile(record);
+        storeRecord(record);
     }
     
     @Override
@@ -114,8 +113,7 @@ public class AuditLoggerSingleton implements AuditLogger {
                 true, // Card creation is always successful if it happens
                 timestamp
         );
-        auditTrail.add(record);
-        saveToFile(record);
+        storeRecord(record);
     }
     
     @Override
@@ -128,9 +126,8 @@ public class AuditLoggerSingleton implements AuditLogger {
                 true, // Card modification is always successful if it happens
                 timestamp
         );
-        record.addDetail("modification", modification);
-        auditTrail.add(record);
-        saveToFile(record);
+        record.addDetail("modification_details", modification);
+        storeRecord(record);
     }
     
     @Override
@@ -143,8 +140,7 @@ public class AuditLoggerSingleton implements AuditLogger {
                 true, // Card revocation is always successful if it happens
                 timestamp
         );
-        auditTrail.add(record);
-        saveToFile(record);
+        storeRecord(record);
     }
     
     @Override
@@ -154,6 +150,12 @@ public class AuditLoggerSingleton implements AuditLogger {
                 .collect(Collectors.toList());
     }
     
+    @Override
+    public void storeRecord(AuditRecord record) {
+        auditTrail.add(record);
+        saveToFile(record);
+    }
+
     @Override
     public List<AuditRecord> getAccessHistory(String location, LocalDateTime startTime, LocalDateTime endTime) {
         return auditTrail.stream()
