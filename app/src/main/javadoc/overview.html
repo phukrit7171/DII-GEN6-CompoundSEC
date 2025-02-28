@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Access Control System Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+    <h1>Access Control System</h1>
+    
+    <p>
+        A comprehensive multi-floor access control system that implements secure card management,
+        floor access policies, and detailed audit logging. This system is designed to provide controlled
+        access to different security levels within a facility.
+    </p>
+
+    <h2>Core Features</h2>
+    <ul>
+        <li><strong>Multi-level Security:</strong> Different policies for low, medium, and high security floors</li>
+        <li><strong>Time-based Access Control:</strong> Enforced time restrictions for different security levels</li>
+        <li><strong>Audit Trail:</strong> Comprehensive logging of all access attempts and card management operations</li>
+        <li><strong>Card Management:</strong> Creation, modification, and revocation of access cards</li>
+        <li><strong>Encrypted IDs:</strong> Secure card identifiers with time-based encryption</li>
+    </ul>
+
+    <h2>Design Patterns</h2>
+    <p>
+        This system implements several design patterns to achieve flexibility, maintainability, and extensibility:
+    </p>
+    <ul>
+        <li><strong>Factory Pattern:</strong> Used for creating different types of access cards</li>
+        <li><strong>Singleton Pattern:</strong> Used for the audit logging system to ensure a single logging instance</li>
+        <li><strong>Decorator Pattern:</strong> Used to enhance the audit logging functionality</li>
+    </ul>
+
+    <h2>Package Organization</h2>
+    <ul>
+        <li><code>com.camt.dii.secure</code> - Core application components</li>
+        <li><code>com.camt.dii.secure.access</code> - Floor access management and policies</li>
+        <li><code>com.camt.dii.secure.card</code> - Card management and permissions</li>
+        <li><code>com.camt.dii.secure.card.factory</code> - Card creation factories</li>
+        <li><code>com.camt.dii.secure.audit</code> - Audit logging system</li>
+        <li><code>com.camt.dii.secure.audit.decorator</code> - Enhanced audit logging decorators</li>
+        <li><code>com.camt.dii.secure.service</code> - Access control services</li>
+    </ul>
+
+    <h2>OOP Principles Demonstrated</h2>
+    <ul>
+        <li><strong>Encapsulation:</strong> Access cards encapsulate access rights and identifiers</li>
+        <li><strong>Inheritance:</strong> Service hierarchies and permission implementations</li>
+        <li><strong>Polymorphism:</strong> Floor access policies with different implementations</li>
+        <li><strong>Abstraction:</strong> Interfaces for permissions and access control</li>
+    </ul>
+
+    <h2>Getting Started</h2>
+    <p>
+        To use this system, start with the <code>App</code> class that demonstrates the 
+        system's functionality, or explore the individual components to understand their roles
+        and interactions.
+    </p>
+</body>
+</html>

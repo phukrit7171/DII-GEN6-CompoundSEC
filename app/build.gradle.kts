@@ -37,7 +37,92 @@ application {
     mainClass = "com.camt.dii.secure.App"
 }
 
+// Create a "fat JAR" with all dependencies included
+tasks.register<Jar>("uberJar") {
+    archiveClassifier.set("uber")
+    
+    // Include compiled classes and resources
+    from(sourceSets.main.get().output)
+    
+    // Include the contents of all runtime dependencies
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
+    
+    // Ensure META-INF/MANIFEST.MF has the main class set
+    manifest {
+        attributes["Main-Class"] = "com.camt.dii.secure.App"
+    }
+    
+    // Avoid duplicate files in the JAR
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+// Configure Javadoc generation
+tasks.javadoc {
+    options {
+        // Set Javadoc options
+        this as StandardJavadocDocletOptions
+        
+        // Output format settings
+        windowTitle = "Access Control System API Documentation"
+        header = "Access Control System"
+        docTitle = "Access Control System API Documentation"
+        
+        // Set overview content
+        overview = "src/main/javadoc/overview.html"
+        
+        // Enable additional features
+        use(true)                 // Create class and package usage pages
+        version(true)             // Include @version paragraphs
+        author(true)              // Include @author paragraphs
+        splitIndex(true)          // Split index into one file per letter
+        linkSource(true)          // Link to source code
+        
+        // Group packages
+        group("Core API", "com.camt.dii.secure")
+        group("Access Control", "com.camt.dii.secure.access*")
+        group("Card Management", "com.camt.dii.secure.card*")
+        group("Audit System", "com.camt.dii.secure.audit*")
+        group("Services", "com.camt.dii.secure.service*")
+        
+        // Add custom tags for design patterns
+        addStringOption("tag", "pattern:a:Design Pattern:")
+        addStringOption("tag", "principle:a:OOP Principle:")
+    }
+    
+    // Include all source files
+    source = sourceSets.main.get().allJava
+    
+    // Disable failing on error with missing documentation
+    // (Remove this line if you want stricter documentation checking)
+    (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet")
+}
+
+// Task to create a ZIP file containing Javadoc
+tasks.register<Zip>("javadocZip") {
+    dependsOn(tasks.javadoc)
+    archiveBaseName.set("access-control-system")
+    archiveClassifier.set("javadoc")
+    from(tasks.javadoc.get().destinationDir)
+}
+
+// Task to create a standalone documentation site with Javadoc and additional resources
+tasks.register("generateDocumentation") {
+    description = "Generates complete documentation for the Access Control System"
+    group = "documentation"
+    
+    dependsOn(tasks.javadoc, "javadocZip")
+    
+    doLast {
+        println("Documentation generated successfully!")
+        println("Javadoc located at: ${tasks.javadoc.get().destinationDir}")
+        println("Javadoc ZIP created at: ${(tasks.named("javadocZip").get() as Zip).archiveFile.get().asFile}")
+    }
 }
