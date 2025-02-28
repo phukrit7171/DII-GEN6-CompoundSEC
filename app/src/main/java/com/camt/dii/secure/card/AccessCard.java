@@ -139,20 +139,83 @@ public class AccessCard {
      * @param time the time to use for encryption
      * @return the encrypted ID
      */
-    private String encryptId(String id, LocalDateTime time) {
-        // Simple encryption for demonstration purposes
-        return id + "_" + time.toString() + "_" + UUID.randomUUID().toString().substring(0, 8);
+    public String encryptId(String id, LocalDateTime time) {
+        // Create a time signature (hours + minutes as hex)
+        String timeSignature = String.format("%02x%02x", 
+                time.getHour(), 
+                time.getMinute());
+        
+        // Create a unique daily key based on the day of year and year
+        String dailyKey = String.format("%03d%04d", 
+                time.getDayOfYear(), 
+                time.getYear());
+        
+        // Combine with a random element for uniqueness
+        String randomElement = UUID.randomUUID().toString().substring(0, 8);
+        
+        // Create the encrypted ID
+        return id + "_" + timeSignature + "_" + dailyKey + "_" + randomElement;
     }
     
     /**
-     * Validates a façade ID.
+     * Validates a façade ID against the list of valid façade IDs.
+     * Checks if the façade ID exists and is still valid for the given time.
      * 
      * @param facadeId the façade ID to validate
      * @param time the time to use for validation
      * @return true if the façade ID is valid, false otherwise
      */
-    private boolean validateFacadeId(String facadeId, LocalDateTime time) {
-        // Simple validation for demonstration purposes
-        return facadeIds.contains(facadeId);
+    public boolean validateFacadeId(String facadeId, LocalDateTime time) {
+        // First check if the façade ID exists in our list
+        if (!facadeIds.contains(facadeId)) {
+            return false;
+        }
+        
+        // For time-sensitive validation, we can check if the ID was created today
+        // and if it's being used within a valid time window
+        
+        // Extract time components from the façade ID if it follows our encryption format
+        if (facadeId.contains("_")) {
+            String[] parts = facadeId.split("_");
+            if (parts.length >= 3) {
+                try {
+                    // Check if the daily key matches today
+                    String dailyKeyPart = parts[2];
+                    int storedDay = Integer.parseInt(dailyKeyPart.substring(0, 3));
+                    int storedYear = Integer.parseInt(dailyKeyPart.substring(3));
+                    
+                    // Check if the stored date matches today's date
+                    return (storedDay == time.getDayOfYear() && storedYear == time.getYear());
+                } catch (Exception e) {
+                    // If parsing fails, fall back to basic validation
+                    return true;
+                }
+            }
+        }
+        
+        // If the façade ID doesn't follow our format or we couldn't parse it,
+        // just validate that it exists in our list (already checked above)
+        return true;
+    }
+    
+    /**
+     * Verifies if an external facade ID is valid for this card at the given time.
+     * This can be used for external validation systems.
+     * 
+     * @param providedFacadeId the facade ID provided for validation
+     * @param time the time of the validation attempt
+     * @return true if the facade ID is valid, false otherwise
+     */
+    public boolean verifyExternalFacadeId(String providedFacadeId, LocalDateTime time) {
+        // Generate a temporary facade ID for this time and check if it matches the provided one
+        String tempId = encryptId(cardId, time);
+        
+        // First try exact matching (for IDs generated using our exact algorithm)
+        if (tempId.equals(providedFacadeId)) {
+            return true;
+        }
+        
+        // Then check against our stored facade IDs
+        return validateFacadeId(providedFacadeId, time);
     }
 }
