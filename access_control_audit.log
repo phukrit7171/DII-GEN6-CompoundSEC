@@ -92,3 +92,7 @@
 2025-02-28 23:50:15 | CARD_REVOCATION | Card: VIS-VIS-001-20250228 | User: ADMIN | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:50:15.8626834 | thread_name: main | memory_usage_mb: 103 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
 2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: Floor: LOW | Outcome: FAILURE
 2025-02-28 23:50:15 | ACCESS_ATTEMPT | Card: VIS-VIS-001-20250228 | Location: LOW | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:50:15.8541273 | thread_name: main | memory_usage_mb: 103 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:53:02 | CARD_CREATION | Card: ADM-Phu-20250228-7h/mcWG5w8Tz | User: SYSTEM-SECURE | Outcome: SUCCESS
+2025-02-28 23:53:02 | CARD_CREATION | Card: ADM-Phu-20250228-7h/mcWG5w8Tz | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:53:02.3793287 | thread_name: main | memory_usage_mb: 103 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-02-28 23:54:09 | ACCESS_ATTEMPT | Card: ADM-Phu-20250228-7h/mcWG5w8Tz | Location: Floor: HIGH | Outcome: FAILURE
+2025-02-28 23:54:09 | ACCESS_ATTEMPT | Card: ADM-Phu-20250228-7h/mcWG5w8Tz | Location: HIGH | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-02-28T23:54:09.4550204 | thread_name: main | memory_usage_mb: 103 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
