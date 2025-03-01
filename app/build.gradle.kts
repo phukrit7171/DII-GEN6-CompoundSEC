@@ -23,6 +23,12 @@ dependencies {
 
     // This dependency is used by the application.
     implementation(libs.guava)
+    
+    // JavaFX dependencies for jpackage
+    implementation("org.openjfx:javafx-base:23.0.2")
+    implementation("org.openjfx:javafx-controls:23.0.2")
+    implementation("org.openjfx:javafx-fxml:23.0.2")
+    implementation("org.openjfx:javafx-graphics:23.0.2")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -38,8 +44,12 @@ application {
 }
 
 // Create a "fat JAR" with all dependencies included
-tasks.register<Jar>("uberJar") {
+tasks.register<Jar>("shadowJar") {
     archiveClassifier.set("uber")
+    manifest {
+        attributes["Main-Class"] = "com.camt.dii.secure.App"
+        attributes["Implementation-Version"] = "23.0.2"
+    }
     
     // Include compiled classes and resources
     from(sourceSets.main.get().output)

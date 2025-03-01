@@ -20,3 +20,18 @@ The importances of the project is allow student to do
 - Card generation or modification will be logged with necessary info
 3. Card management 
 - Add, modify, revoke permission of each card
+
+```mermaid
+graph LR
+    Unauthorized -- Request Access --> Pending
+    Pending -- Access Granted --> Authorized
+    Pending -- Access Denied --> Unauthorized
+    Authorized -- Access Revoked --> Unauthorized
+    Authorized -- Timeout --> Unauthorized
+    Unauthorized -- Card Presented --> IdentifyCard
+    IdentifyCard -- Valid Card --> CheckPermissions
+    IdentifyCard -- Invalid Card --> Unauthorized
+    CheckPermissions -- Permissions Granted --> Authorized
+    CheckPermissions -- Permissions Denied --> Unauthorized
+    Pending -- Cancel Request --> Unauthorized
+```

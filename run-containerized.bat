@@ -13,7 +13,7 @@ echo === INSTRUCTIONS ===
 echo.
 
 echo Step 1: Building the Uber JAR...
-call gradlew :app:uberJar
+call gradlew :app:shadowJar
 if %ERRORLEVEL% NEQ 0 (
     echo Failed to build the JAR file.
     exit /b %ERRORLEVEL%
@@ -22,7 +22,7 @@ echo JAR built successfully.
 echo.
 
 echo Step 2: Building the container image...
-podman build -t access-control-system:latest -f Containerfile .
+docker build -t access-control-system:latest -f Containerfile .
 if %ERRORLEVEL% NEQ 0 (
     echo Failed to build the container image.
     exit /b %ERRORLEVEL%
@@ -35,7 +35,7 @@ echo.
 echo You can exit the application by pressing Ctrl+C
 echo.
 
-podman run --rm -it access-control-system:latest
+docker run --rm -it access-control-system:latest
 
 echo.
 echo Container execution completed.
