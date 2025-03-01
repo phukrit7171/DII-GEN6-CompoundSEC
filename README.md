@@ -13,13 +13,26 @@ The importances of the project is allow student to do
 
 # Design Brief
 1. Access control system for multi-floor system (low floor, medium floor, high floor)
-- Access cards with multi-facades id and time-based encryption
-- Floor level access control and room level access control
+    - Access cards with multi-facades id and time-based encryption
+    - Floor level access control and room level access control
 2. Audit trial for card access
-- Each attempts will be logged with necessary info
-- Card generation or modification will be logged with necessary info
+    - Each attempts will be logged with necessary info
+    - Card generation or modification will be logged with necessary info
 3. Card management 
-- Add, modify, revoke permission of each card
+    - Add, modify, revoke permission of each card
+
+## Quick Start
+1. Download the latest release from GitHub releases.
+2. Unzip the downloaded package to your desired location.
+3. Double-click `launch.bat` to start the application.
+
+**Distribution Package**
+- The release package is located in `app/build/distributions/app.zip`.
+- This ZIP file contains all necessary dependencies to run the application.
+
+**Launch Script**
+- `launch.bat` is provided for easy startup on Windows.
+- It directly executes the JAR file and pauses at the end.
 
 ```mermaid
 graph LR
