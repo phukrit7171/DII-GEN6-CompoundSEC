@@ -74,17 +74,3 @@ stateDiagram-v2
 
 - `launch.bat` is provided for easy startup on Windows.
 - It directly executes the JAR file and pauses at the end.
-
-```mermaid
-graph LR
-    Unauthorized -- Request Access --> Pending
-    Pending -- Access Granted --> Authorized
-    Pending -- Access Denied --> Unauthorized
-    Authorized -- Access Revoked --> Unauthorized
-    Authorized -- Timeout --> Unauthorized
-    Unauthorized -- Card Presented --> IdentifyCard
-    IdentifyCard -- Valid Card --> CheckPermissions
-    IdentifyCard -- Invalid Card --> Unauthorized
-    CheckPermissions -- Permissions Granted --> Authorized
-    CheckPermissions -- Permissions Denied --> Unauthorized
-    Pending -- Cancel Request --> Unauthorized
