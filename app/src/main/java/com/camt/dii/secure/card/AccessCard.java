@@ -1,9 +1,7 @@
 package com.camt.dii.secure.card;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+
 import java.util.UUID;
 
 import com.camt.dii.secure.access.Floor;
@@ -17,7 +15,7 @@ import com.camt.dii.secure.access.Floor;
 public class AccessCard {
     
     private final String cardId;
-    private final List<String> facadeIds;
+    private final String facadeIds;
     private final Permission permission;
     private boolean isActive;
     private final LocalDateTime creationDate;
@@ -30,9 +28,9 @@ public class AccessCard {
      * @param facadeIds list of facade IDs for security
      * @param permission permission assigned to this card
      */
-    public AccessCard(String cardId, List<String> facadeIds, Permission permission) {
+    public AccessCard(String cardId, String facadeIds, Permission permission) {
         this.cardId = cardId;
-        this.facadeIds = Collections.unmodifiableList(new ArrayList<>(facadeIds));
+        this.facadeIds = facadeIds;
         this.permission = permission;
         this.isActive = true;
         this.creationDate = LocalDateTime.now();
@@ -48,6 +46,18 @@ public class AccessCard {
         return cardId;
     }
     
+
+    /**
+     * Returns the facade ID.
+     * 
+     * @return the facade ID
+     */
+    public String getFacadeId() {
+        return facadeIds;
+    }
+
+
+
     /**
      * Checks if the card has permission for the specified floor.
      * 

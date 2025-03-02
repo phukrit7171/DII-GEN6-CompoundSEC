@@ -1,15 +1,15 @@
 package com.camt.dii.secure.card.factory;
 
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+
 
 import com.camt.dii.secure.audit.AuditLogger;
 import com.camt.dii.secure.audit.AuditLoggerSingleton;
 import com.camt.dii.secure.card.AccessCard;
 import com.camt.dii.secure.card.CardIdentifier;
 import com.camt.dii.secure.card.Permission;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Standard implementation of the CardFactory interface.
@@ -42,7 +42,7 @@ public class StandardCardFactory implements CardFactory {
     @Override
     public AccessCard createCard(CardIdentifier identifier, Permission permission) {
         String cardId = generateCardId(identifier);
-        List<String> facadeIds = initializeFacadeIds(cardId);
+        String facadeIds = initializeFacadeIds(cardId);
         
         // Log the card creation
         auditLogger.logCardCreation(cardId, "SYSTEM", identifier.getIssueDate());
@@ -70,14 +70,33 @@ public class StandardCardFactory implements CardFactory {
      * @param cardId the card ID
      * @return the list of facade IDs
      */
-    protected List<String> initializeFacadeIds(String cardId) {
-        List<String> facadeIds = new ArrayList<>();
+    protected String initializeFacadeIds(String cardId) {
+        String facadeIds;
         
-        // Generate 3 facade IDs for the card
-        for (int i = 0; i < 3; i++) {
-            facadeIds.add(cardId + "-FACADE-" + UUID.randomUUID().toString().substring(0, 8));
-        }
+    
+        facadeIds = (hashFacadeId(cardId));
+
         
         return facadeIds;
+    }
+    
+    /**
+     * Hashes the facade ID using SHA-256.
+     * 
+     * @param facadeId the facade ID to hash
+     * @return the hashed facade ID
+     */
+    private String hashFacadeId(String facadeId) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(facadeId.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                hexString.append(String.format("%02x", b));
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("SHA-256 algorithm not found", e);
+        }
     }
 }

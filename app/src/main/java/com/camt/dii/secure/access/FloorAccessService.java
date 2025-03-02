@@ -29,8 +29,8 @@ public class FloorAccessService {
         this.policies.put(Floor.LOW, new LowFloorAccess());
         this.policies.put(Floor.MEDIUM, new MediumFloorAccess());
         this.policies.put(Floor.HIGH, new HighFloorAccess());
-        this.timeRestrictions.put(Floor.MEDIUM, new TimeRestriction(LocalTime.of(9, 0), LocalTime.of(17, 0)));
-        this.timeRestrictions.put(Floor.HIGH, new TimeRestriction(LocalTime.of(9, 0), LocalTime.of(17, 0)));
+        this.timeRestrictions.put(Floor.MEDIUM, new TimeRestriction(LocalTime.of(9, 0), LocalTime.of(23, 0)));
+        this.timeRestrictions.put(Floor.HIGH, new TimeRestriction(LocalTime.of(9, 0), LocalTime.of(23, 0)));
         this.auditLogger = AuditLoggerSingleton.getInstance();
     }
     

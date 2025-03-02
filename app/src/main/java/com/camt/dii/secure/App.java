@@ -1,5 +1,7 @@
 package com.camt.dii.secure;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -28,7 +30,6 @@ import com.camt.dii.secure.card.Permission;
 import com.camt.dii.secure.card.SimplePermission;
 import com.camt.dii.secure.card.TimeLimitedPermission;
 import com.camt.dii.secure.card.factory.CardFactory;
-import com.camt.dii.secure.card.factory.SecureCardFactory;
 import com.camt.dii.secure.card.factory.StandardCardFactory;
 
 /**
@@ -40,7 +41,6 @@ public class App {
     private static AuditLogger auditLogger;
     private static AuditLogger detailedLogger;
     private static CardFactory standardFactory;
-    private static CardFactory secureFactory;
     private static FloorAccessService floorService;
     
     // Data storage
@@ -57,6 +57,7 @@ public class App {
         createSampleData();
         
         System.out.println("\nSystem initialized successfully!");
+        listCardsForTest();
         runCommandLineInterface();
     }
     
@@ -70,7 +71,6 @@ public class App {
         
         // Initialize card factories
         standardFactory = new StandardCardFactory();
-        secureFactory = new SecureCardFactory();
         
         // Initialize floor access policies
         FloorAccessPolicy lowPolicy = new LowFloorAccess();
@@ -108,10 +108,10 @@ public class App {
         );
         
         // Create cards
-        createCard("ADM-001", "ADMIN", adminPermission, true);
-        createCard("MGR-001", "MANAGER", managerPermission, false);
-        createCard("EMP-001", "EMPLOYEE", basicPermission, false);
-        createCard("VIS-001", "VISITOR", visitorPermission, false);
+        createCard("ADM-001", "ADMIN", adminPermission);
+        createCard("MGR-001", "MANAGER", managerPermission);
+        createCard("EMP-001", "EMPLOYEE", basicPermission);
+        createCard("VIS-001", "VISITOR", visitorPermission);
         
         System.out.println("Sample data created successfully!");
     }
@@ -190,7 +190,12 @@ public class App {
         System.out.println("                                      Format: HH:mm (24-hour)");
         System.out.println("exit, quit                          - Exit the system");
     }
-    
+    private static void listCardsForTest() {
+        for (AccessCard card : cardDatabase.values()) {
+            String type = card.getCardId();
+            System.out.println(type);
+        }
+    }
     /**
      * List all cards in the system.
      */
@@ -211,7 +216,7 @@ public class App {
             String created = card.getCreationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             
             System.out.printf("%-15s %-15s %-10s %-20s%n", 
-                    card.getCardId(), type, status, created);
+                    card.getFacadeId(), type, status, created);
         }
     }
     
@@ -246,9 +251,8 @@ public class App {
         // Create permission based on level
         Permission permission = createPermissionByLevel(parts);
         
-        // Create the card
-        boolean isSecure = "ADMIN".equals(type);
-        createCard(id, type, permission, isSecure);
+
+        createCard(id, type, permission);
         
         System.out.println("Card created successfully!");
     }
@@ -307,20 +311,18 @@ public class App {
      * @param isSecure whether to create a secure card
      * @return the created card
      */
-    private static AccessCard createCard(String serialNumber, String issuer, Permission permission, boolean isSecure) {
+    private static AccessCard createCard(String serialNumber, String issuer, Permission permission) {
         // Create identifier
         CardIdentifier identifier = new CardIdentifier(serialNumber, issuer, LocalDateTime.now());
         
         // Create card using appropriate factory
-        AccessCard card = isSecure ? 
-                secureFactory.createCard(identifier, permission) : 
-                standardFactory.createCard(identifier, permission);
+        AccessCard card = standardFactory.createCard(identifier, permission);
         
         // Log card creation
         detailedLogger.logCardCreation(card.getCardId(), "SYSTEM", LocalDateTime.now());
         
         // Store in database
-        cardDatabase.put(card.getCardId(), card);
+        cardDatabase.put(card.getFacadeId(), card);
         
         return card;
     }
@@ -331,6 +333,7 @@ public class App {
      * @param cardId the card ID
      */
     private static void showCardInfo(String cardId) {
+        cardId = hashFacadeId(cardId);
         AccessCard card = findCard(cardId);
         if (card == null) {
             System.out.println("Card not found: " + cardId);
@@ -355,7 +358,7 @@ public class App {
         System.out.println("HIGH Floor:    " + (card.hasPermission(Floor.HIGH) ? "YES" : "NO"));
         
         // Get number of access attempts
-        List<AuditRecord> history = auditLogger.getAccessHistory(card.getCardId());
+        List<AuditRecord> history = auditLogger.getAccessHistory(card.getFacadeId());
         long accessCount = history.stream()
                 .filter(record -> "ACCESS_ATTEMPT".equals(record.getEventType().toString()))
                 .count();
@@ -379,6 +382,7 @@ public class App {
         String floorName = parts[1].toUpperCase();
         
         AccessCard card = findCard(cardId);
+        
         if (card == null) {
             System.out.println("Card not found: " + cardId);
             return;
@@ -424,6 +428,7 @@ public class App {
      * @param cardId the card ID
      */
     private static void revokeCard(String cardId) {
+        cardId = hashFacadeId(cardId);
         AccessCard card = findCard(cardId);
         if (card == null) {
             System.out.println("Card not found: " + cardId);
@@ -446,6 +451,7 @@ public class App {
      * @param cardId the card ID
      */
     private static void activateCard(String cardId) {
+        cardId = hashFacadeId(cardId);
         AccessCard card = findCard(cardId);
         if (card == null) {
             System.out.println("Card not found: " + cardId);
@@ -468,6 +474,7 @@ public class App {
      * @param cardId the card ID
      */
     private static void showAccessHistory(String cardId) {
+        cardId = hashFacadeId(cardId);
         AccessCard card = findCard(cardId);
         if (card == null) {
             System.out.println("Card not found: " + cardId);
@@ -505,7 +512,9 @@ public class App {
      * @return the card, or null if not found
      */
     private static AccessCard findCard(String cardId) {
+        cardId = hashFacadeId(cardId);
         // Direct lookup
+
         if (cardDatabase.containsKey(cardId)) {
             return cardDatabase.get(cardId);
         }
@@ -526,6 +535,7 @@ public class App {
      * @param cardId the ID of the card to test
      */
     private static void testEncryption(String cardId) {
+        cardId = hashFacadeId(cardId);
         AccessCard card = findCard(cardId);
         if (card == null) {
             System.out.println("Card not found: " + cardId);
@@ -631,7 +641,7 @@ public class App {
         System.out.println(" - " + description + ": " + (result ? "GRANTED" : "DENIED"));
         
         // Log the access attempt
-        detailedLogger.logAccessAttempt(card.getCardId(), floor.toString(), result, time);
+        detailedLogger.logAccessAttempt(card.getFacadeId(), floor.toString(), result, time);
     }
 
     private static void handleSetTime(String params) {
@@ -653,4 +663,25 @@ public class App {
             System.out.println("Invalid input. Please use format: set-time <floor> HH:mm HH:mm");
         }
     }
+
+    /**
+     * Hashes the facade ID using SHA-256.
+     * 
+     * @param facadeId the facade ID to hash
+     * @return the hashed facade ID
+     */
+    private static String hashFacadeId(String facadeId) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(facadeId.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                hexString.append(String.format("%02x", b));
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("SHA-256 algorithm not found", e);
+        }
+    }
+
 }
