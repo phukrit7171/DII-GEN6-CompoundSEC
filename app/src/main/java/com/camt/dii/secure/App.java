@@ -154,6 +154,7 @@ public class App {
                     case "history" -> showAccessHistory(params);
                     case "demo" -> runDemo();
                     case "test-encryption" -> testEncryption(params);
+                    case "set-time" -> handleSetTime(params);
                     case "exit", "quit" -> {
                         running = false;
                         System.out.println("Exiting system. Goodbye!");
@@ -185,6 +186,8 @@ public class App {
         System.out.println("history <card-id>                   - Show access history for a card");
         System.out.println("demo                                - Run the system demonstration");
         System.out.println("test-encryption <card-id>           - Test the encryption and validation system");
+        System.out.println("set-time <floor> <start-time> <end-time> - Set access time for a floor");
+        System.out.println("                                      Format: HH:mm (24-hour)");
         System.out.println("exit, quit                          - Exit the system");
     }
     
@@ -241,7 +244,7 @@ public class App {
         }
         
         // Create permission based on level
-        Permission permission = createPermissionByLevel(level);
+        Permission permission = createPermissionByLevel(parts);
         
         // Create the card
         boolean isSecure = "ADMIN".equals(type);
@@ -253,44 +256,45 @@ public class App {
     /**
      * Create a permission object based on the specified level.
      * 
-     * @param level the access level
+     * @param parts the command parts
      * @return the permission object
      */
-    private static Permission createPermissionByLevel(String level) {
+    private static Permission createPermissionByLevel(String[] parts) {
         Set<Floor> floors = new HashSet<>();
         Set<String> rooms = new HashSet<>();
         
-        // Add floors based on level using rule switch
-        switch (level) {
-            case "HIGH" -> {
-                floors.add(Floor.HIGH);
-                floors.add(Floor.MEDIUM);
-                floors.add(Floor.LOW);
-                rooms.addAll(Arrays.asList("101", "102", "201", "202", "301", "302"));
-            }
-            case "MEDIUM" -> {
-                floors.add(Floor.MEDIUM);
-                floors.add(Floor.LOW);
-                rooms.addAll(Arrays.asList("101", "102", "201", "202"));
-            }
-            default -> {
-                // LOW
-                floors.add(Floor.LOW);
-                rooms.addAll(Arrays.asList("101", "102"));
+        // Parse floors from command line (3rd argument onwards)
+        for (int i = 2; i < parts.length; i++) {
+            try {
+                floors.add(Floor.valueOf(parts[i].toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                System.out.println("Warning: Invalid floor ignored: " + parts[i]);
             }
         }
         
-        // Create time-limited permission for visitors
-        if (level.equals("LOW") && rooms.size() <= 2) {
-            return new TimeLimitedPermission(
-                    floors,
-                    rooms,
-                    LocalDateTime.now(),
-                    LocalDateTime.now().plusDays(1)
-            );
+        // If no valid floors specified, use default based on type
+        if (floors.isEmpty()) {
+            switch (parts[1].toUpperCase()) {
+                case "ADMIN" -> floors.addAll(Arrays.asList(Floor.values()));
+                case "MANAGER" -> {
+                    floors.add(Floor.MEDIUM);
+                    floors.add(Floor.LOW);
+                }
+                default -> floors.add(Floor.LOW);
+            }
         }
         
-        // Create standard permission for all other cases
+        // Add rooms based on granted floors
+        if (floors.contains(Floor.HIGH)) {
+            rooms.addAll(Arrays.asList("301", "302"));
+        }
+        if (floors.contains(Floor.MEDIUM)) {
+            rooms.addAll(Arrays.asList("201", "202"));
+        }
+        if (floors.contains(Floor.LOW)) {
+            rooms.addAll(Arrays.asList("101", "102"));
+        }
+        
         return new SimplePermission(floors, rooms);
     }
     
@@ -628,5 +632,25 @@ public class App {
         
         // Log the access attempt
         detailedLogger.logAccessAttempt(card.getCardId(), floor.toString(), result, time);
+    }
+
+    private static void handleSetTime(String params) {
+        String[] parts = params.split("\\s+");
+        if (parts.length < 3) {
+            System.out.println("Invalid parameters. Usage: set-time <floor> <start-time> <end-time>");
+            return;
+        }
+
+        try {
+            Floor floor = Floor.valueOf(parts[0].toUpperCase());
+            LocalTime startTime = LocalTime.parse(parts[1]);
+            LocalTime endTime = LocalTime.parse(parts[2]);
+
+            floorService.setTimeRestriction(floor, startTime, endTime);
+            System.out.println("Floor access times updated successfully for " + floor);
+            System.out.println("New access hours: " + startTime + " - " + endTime);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid input. Please use format: set-time <floor> HH:mm HH:mm");
+        }
     }
 }

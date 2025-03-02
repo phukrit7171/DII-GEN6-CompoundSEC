@@ -416,3 +416,11 @@
 2025-03-01 16:27:28 | CARD_CREATION | Card: EMP-EMP-001-20250301 | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-03-01T16:27:28.6436822 | thread_name: main | memory_usage_mb: 7 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
 2025-03-01 16:27:28 | CARD_CREATION | Card: VIS-VIS-001-20250301 | User: SYSTEM | Outcome: SUCCESS
 2025-03-01 16:27:28 | CARD_CREATION | Card: VIS-VIS-001-20250301 | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-03-01T16:27:28.6446828 | thread_name: main | memory_usage_mb: 7 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-03-01 18:17:42 | CARD_CREATION | Card: ADM-ADM-001-20250301-NBC0dTKHMD/H | User: SYSTEM-SECURE | Outcome: SUCCESS
+2025-03-01 18:17:42 | CARD_CREATION | Card: ADM-ADM-001-20250301-NBC0dTKHMD/H | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-03-01T18:17:42.3199298 | thread_name: main | memory_usage_mb: 8 | system_version: 10.0 | java_version: 23.0.2 | application_version: 1.0.0
+2025-03-01 18:17:42 | CARD_CREATION | Card: MAN-MGR-001-20250301 | User: SYSTEM | Outcome: SUCCESS
+2025-03-01 18:17:42 | CARD_CREATION | Card: MAN-MGR-001-20250301 | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-03-01T18:17:42.3219301 | thread_name: main | memory_usage_mb: 8 | system_version: 10.0 | java_version: 23.0.2 | application_version: 1.0.0
+2025-03-01 18:17:42 | CARD_CREATION | Card: EMP-EMP-001-20250301 | User: SYSTEM | Outcome: SUCCESS
+2025-03-01 18:17:42 | CARD_CREATION | Card: EMP-EMP-001-20250301 | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-03-01T18:17:42.3239303 | thread_name: main | memory_usage_mb: 8 | system_version: 10.0 | java_version: 23.0.2 | application_version: 1.0.0
+2025-03-01 18:17:42 | CARD_CREATION | Card: VIS-VIS-001-20250301 | User: SYSTEM | Outcome: SUCCESS
+2025-03-01 18:17:42 | CARD_CREATION | Card: VIS-VIS-001-20250301 | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-03-01T18:17:42.3249295 | thread_name: main | memory_usage_mb: 8 | system_version: 10.0 | java_version: 23.0.2 | application_version: 1.0.0

@@ -1,6 +1,7 @@
 package com.camt.dii.secure.access;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import com.camt.dii.secure.card.AccessCard;
 public class FloorAccessService {
     
     private final Map<Floor, FloorAccessPolicy> policies;
+    private final Map<Floor, TimeRestriction> timeRestrictions;
     private final AuditLogger auditLogger;
     
     /**
@@ -23,9 +25,12 @@ public class FloorAccessService {
      */
     public FloorAccessService() {
         this.policies = new EnumMap<>(Floor.class);
+        this.timeRestrictions = new EnumMap<>(Floor.class);
         this.policies.put(Floor.LOW, new LowFloorAccess());
         this.policies.put(Floor.MEDIUM, new MediumFloorAccess());
         this.policies.put(Floor.HIGH, new HighFloorAccess());
+        this.timeRestrictions.put(Floor.MEDIUM, new TimeRestriction(LocalTime.of(9, 0), LocalTime.of(17, 0)));
+        this.timeRestrictions.put(Floor.HIGH, new TimeRestriction(LocalTime.of(9, 0), LocalTime.of(17, 0)));
         this.auditLogger = AuditLoggerSingleton.getInstance();
     }
     
@@ -38,9 +43,12 @@ public class FloorAccessService {
      */
     public FloorAccessService(FloorAccessPolicy lowPolicy, FloorAccessPolicy mediumPolicy, FloorAccessPolicy highPolicy) {
         this.policies = new EnumMap<>(Floor.class);
+        this.timeRestrictions = new EnumMap<>(Floor.class);
         this.policies.put(Floor.LOW, lowPolicy);
         this.policies.put(Floor.MEDIUM, mediumPolicy);
         this.policies.put(Floor.HIGH, highPolicy);
+        this.timeRestrictions.put(Floor.MEDIUM, new TimeRestriction(LocalTime.of(9, 0), LocalTime.of(17, 0)));
+        this.timeRestrictions.put(Floor.HIGH, new TimeRestriction(LocalTime.of(9, 0), LocalTime.of(17, 0)));
         this.auditLogger = AuditLoggerSingleton.getInstance();
     }
     
@@ -75,6 +83,15 @@ public class FloorAccessService {
      * @return true if access is granted, false otherwise
      */
     public boolean checkAccess(AccessCard card, Floor floor, LocalDateTime accessTime) {
+        if (!policies.containsKey(floor)) {
+            return false;
+        }
+        
+        TimeRestriction restriction = timeRestrictions.get(floor);
+        if (restriction != null && !restriction.isWithinAllowedTime(accessTime.toLocalTime())) {
+            return false;
+        }
+        
         FloorAccessPolicy policy = policies.get(floor);
         boolean result = policy.validateAccess(card, floor, accessTime);
         
@@ -87,5 +104,30 @@ public class FloorAccessService {
         );
         
         return result;
+    }
+
+    /**
+     * Sets the time restriction for a specific floor level.
+     * 
+     * @param floor the floor level to set the time restriction for
+     * @param startTime the start time of the restriction
+     * @param endTime the end time of the restriction
+     */
+    public void setTimeRestriction(Floor floor, LocalTime startTime, LocalTime endTime) {
+        timeRestrictions.put(floor, new TimeRestriction(startTime, endTime));
+    }
+
+    private static class TimeRestriction {
+        private final LocalTime startTime;
+        private final LocalTime endTime;
+
+        TimeRestriction(LocalTime startTime, LocalTime endTime) {
+            this.startTime = startTime;
+            this.endTime = endTime;
+        }
+
+        boolean isWithinAllowedTime(LocalTime time) {
+            return !time.isBefore(startTime) && !time.isAfter(endTime);
+        }
     }
 }
