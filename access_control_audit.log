@@ -109,3 +109,20 @@
 2025-03-02 23:16:28 | CARD_CREATION | Card: VIS-VIS-001-20250302 | User: SYSTEM | Outcome: SUCCESS
 2025-03-02 23:16:28 | CARD_CREATION | Card: VIS-VIS-001-20250302 | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-03-02T23:16:28.4513104 | thread_name: main | memory_usage_mb: 6 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
 2025-03-02 23:16:36 | ACCESS_ATTEMPT | Card: ADM-ADM-001-20250302 | Location: HIGH | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-03-02T23:16:36.2970908 | thread_name: main | memory_usage_mb: 6 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-03-02 23:35:38 | CARD_CREATION | Card: ADM-ADM-001-20250302 | User: SYSTEM | Outcome: SUCCESS
+2025-03-02 23:35:38 | CARD_CREATION | Card: ADM-ADM-001-20250302 | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-03-02T23:35:38.2207473 | thread_name: main | memory_usage_mb: 6 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-03-02 23:35:38 | CARD_CREATION | Card: MAN-MGR-001-20250302 | User: SYSTEM | Outcome: SUCCESS
+2025-03-02 23:35:38 | CARD_CREATION | Card: MAN-MGR-001-20250302 | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-03-02T23:35:38.2227469 | thread_name: main | memory_usage_mb: 6 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-03-02 23:35:38 | CARD_CREATION | Card: EMP-EMP-001-20250302 | User: SYSTEM | Outcome: SUCCESS
+2025-03-02 23:35:38 | CARD_CREATION | Card: EMP-EMP-001-20250302 | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-03-02T23:35:38.2237478 | thread_name: main | memory_usage_mb: 6 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-03-02 23:35:38 | CARD_CREATION | Card: VIS-VIS-001-20250302 | User: SYSTEM | Outcome: SUCCESS
+2025-03-02 23:35:38 | CARD_CREATION | Card: VIS-VIS-001-20250302 | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-03-02T23:35:38.2257479 | thread_name: main | memory_usage_mb: 6 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-03-02 23:35:40 | ACCESS_ATTEMPT | Card: ADM-ADM-001-20250302 | Location: HIGH | Outcome: FAILURE | system_info: Windows 11 | detailed_timestamp: 2025-03-02T23:35:40.8894415 | thread_name: main | memory_usage_mb: 6 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-03-03 07:33:27 | CARD_CREATION | Card: ADM-ADM-001-20250303 | User: SYSTEM | Outcome: SUCCESS
+2025-03-03 07:33:27 | CARD_CREATION | Card: ADM-ADM-001-20250303 | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-03-03T07:33:27.3436082 | thread_name: main | memory_usage_mb: 7 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-03-03 07:33:27 | CARD_CREATION | Card: MAN-MGR-001-20250303 | User: SYSTEM | Outcome: SUCCESS
+2025-03-03 07:33:27 | CARD_CREATION | Card: MAN-MGR-001-20250303 | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-03-03T07:33:27.3456065 | thread_name: main | memory_usage_mb: 7 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-03-03 07:33:27 | CARD_CREATION | Card: EMP-EMP-001-20250303 | User: SYSTEM | Outcome: SUCCESS
+2025-03-03 07:33:27 | CARD_CREATION | Card: EMP-EMP-001-20250303 | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-03-03T07:33:27.346613 | thread_name: main | memory_usage_mb: 7 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0
+2025-03-03 07:33:27 | CARD_CREATION | Card: VIS-VIS-001-20250303 | User: SYSTEM | Outcome: SUCCESS
+2025-03-03 07:33:27 | CARD_CREATION | Card: VIS-VIS-001-20250303 | User: SYSTEM | Outcome: SUCCESS | system_info: Windows 11 | detailed_timestamp: 2025-03-03T07:33:27.3476065 | thread_name: main | memory_usage_mb: 7 | system_version: 10.0 | java_version: 21.0.6 | application_version: 1.0.0

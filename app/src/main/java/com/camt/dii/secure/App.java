@@ -415,8 +415,8 @@ public class App {
         } else if (!card.hasPermission(floor)) {
             System.out.println("Reason: Card does not have permission for this floor");
         } else if (floor == Floor.MEDIUM || floor == Floor.HIGH) {
-            if (now.toLocalTime().isBefore(LocalTime.of(9, 0)) || 
-                now.toLocalTime().isAfter(LocalTime.of(17, 0))) {
+            if (now.toLocalTime().isBefore(LocalTime.of(9, 0)) ||
+                now.toLocalTime().isAfter(LocalTime.of(23, 59))) {
                 System.out.println("Reason: Access to this floor is restricted to business hours (9:00 AM - 5:00 PM)");
             }
         }
