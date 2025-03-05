@@ -3,3 +3,26 @@
 
 # Ignore Gradle build output directory
 build
+
+# Ignore Java class files
+*.class
+
+# Ignore Maven build directory
+target
+
+# Ignore Eclipse project files
+.classpath
+.project
+.settings/
+
+# Ignore IntelliJ project files
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Ignore NetBeans project files
+nbproject/
+
+# Ignore Gradle files
+.gradle/
